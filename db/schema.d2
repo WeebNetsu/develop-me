@@ -1,0 +1,146 @@
+# https://youtu.be/9f25WKg3SQI
+# d2 --layout=elk -w schema.d2 ../docs/database_schema.svg
+direction: right
+
+User: {
+  shape: sql_table
+  id: int {
+    constraint: primary_key
+  }
+  created_at: DateTime
+  updated_at: DateTime
+  username: string {
+    constraint: unique
+  }
+  email: string {
+    constraint: unique
+  }
+  # if their email has been verified
+  verified: boolean
+  # they can gain points on the website with post
+  # up- and down votes
+  points: int
+  # their profile description
+  description: string
+  # if they are a developer and can code
+  developer: boolean
+  # if they break the TOS they will be banned from the site
+  banned: boolean
+  # if they are banned, they will be unbanned at this date
+  # if eligible 
+  ban_end_date: DateTime?
+}
+
+Post: {
+  shape: sql_table
+  id: int {
+    constraint: primary_key
+  }
+  created_at: DateTime
+  updated_at: DateTime
+  user_id: int {
+    constraint: foreign_key
+  }
+  title: string
+  description: string
+  # easy, medium, hard, very hard
+  # easy would of course mean beginners to programming can do it
+  # very hard means only experienced people can do it, or those
+  # with the finances and dedication
+  difficulty: string
+}
+
+PostLike: {
+  shape: sql_table
+  id: int {
+    constraint: primary_key
+  }
+  created_at: DateTime
+  updated_at: DateTime
+  user_id: int {
+    constraint: foreign_key
+  }
+  post_id: int {
+    constraint: foreign_key
+  }
+  is_like: boolean
+}
+
+PostComment: {
+  shape: sql_table
+  id: int {
+    constraint: primary_key
+  }
+  created_at: DateTime
+  updated_at: DateTime
+  user_id: int {
+    constraint: foreign_key
+  }
+  post_id: int {
+    constraint: foreign_key
+  }
+}
+
+PostCommentLike: {
+  shape: sql_table
+  id: int {
+    constraint: primary_key
+  }
+  created_at: DateTime
+  updated_at: DateTime
+  user_id: int {
+    constraint: foreign_key
+  }
+  comment_id: int {
+    constraint: foreign_key
+  }
+  is_like: boolean
+}
+
+User -> Post: {
+  target-arrowhead: * {
+    shape: cf-many
+  }
+}
+
+User -> PostComment: {
+  target-arrowhead: * {
+    shape: cf-many
+  }
+}
+
+User -> PostCommentLike: {
+  target-arrowhead: * {
+    shape: cf-many
+  }
+}
+
+User -> PostLike: {
+  target-arrowhead: * {
+    shape: cf-many
+  }
+}
+
+Post -> PostComment: {
+  target-arrowhead: * {
+    shape: cf-many
+  }
+}
+
+Post -> PostLike: {
+  target-arrowhead: * {
+    shape: cf-many
+  }
+}
+
+Post -> PostCommentLike: {
+  target-arrowhead: * {
+    shape: cf-many
+  }
+}
+
+PostComment -> PostCommentLike: {
+  target-arrowhead: * {
+    shape: cf-many
+  }
+}

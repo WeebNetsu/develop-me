@@ -41,6 +41,14 @@ Please note! This is not a hiring platform! Any of your ideas that ends up on th
 
 * Deployment instructions -->
 
+## Database
+
+### Structure
+
+![Database structure with D2](docs/database_schema.svg)
+
 ## Contributing
 
 Feel free to pitch me ideas, open issues, open pull requests etc.!
+
+Fun fact, this website started off in PHP, was then moved over to Flask and is now in Ruby! Why? I seriously don't know lol!
